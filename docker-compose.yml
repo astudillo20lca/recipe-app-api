@@ -1,0 +1,17 @@
+# version: "3.9" seems deprecated
+
+services:
+  # service that runs our docker file
+  app:
+    build:
+      # where we build the docker file
+      context: .
+      # port mappings
+    ports:
+      - "8000:8000"
+    volumes:
+      # map folders between our local machine to the container
+      - ./app:/app
+      # default command
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
