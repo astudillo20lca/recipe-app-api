@@ -6,6 +6,8 @@ services:
     build:
       # where we build the docker file
       context: .
+      args:
+        - DEV=true
       # port mappings
     ports:
       - "8000:8000"

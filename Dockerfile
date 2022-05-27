@@ -5,6 +5,7 @@ LABEL maintainer="Miguel"
 ENV PYTHONUNBUFFERED 1
 
 COPY ./requirements.txt /tmp/requirements.txt
+COPY ./requirements.dev.txt /tmp/requirements.dev.txt
 COPY ./app /app
 WORKDIR /app
 EXPOSE 8000
@@ -14,12 +15,16 @@ EXPOSE 8000
 # it is good practice not to use the root user, as if
 # the apps get compromised they will have full access to the container
 
+# by default we dont run in development mode
+ARG DEV=false
 # better to run it in a single command to avoid the creation
 # of unnecessary docker image layers. (more efficient)
-
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
     /py/bin/pip install -r /tmp/requirements.txt && \
+    if [ $DEV = "true"]; \
+        then /py/bin/pip install -r /tmp/requirements.dev.txt ;\
+    fi && \
     rm -rf /tmp && \
     adduser \
         --disabled-password \
