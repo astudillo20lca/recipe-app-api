@@ -17,3 +17,26 @@ services:
       # default command
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
+    # env variables needed to connect to the dev database
+    environment:
+      - DB_HOST=db
+      - DB_NAME=devdb
+      - DB_USER=devuser
+      - DB_PASS=changeme
+    depends_on:
+      - db
+  # database service
+  db:
+    image: postgres:13-alpine
+    # 
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data
+    # creates an initial database for the local development server
+    environment:
+      - POSTGRES_DB=devdb
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=changeme
+
+# store in default location, handled by docker
+volumes:
+  dev-db-data:
