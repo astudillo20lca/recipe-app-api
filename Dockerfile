@@ -21,11 +21,18 @@ ARG DEV=false
 # of unnecessary docker image layers. (more efficient)
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
+    # install postgres client (dependencies)
+    apk add --update --no-cache postgresql-client && \
+    # virtual dependency package
+    apk add --update --no-cache --virtual .tmp-build-deps \
+        build-base postgresql-dev musl-dev && \
     /py/bin/pip install -r /tmp/requirements.txt && \
-    if [ $DEV = "true"]; \
-        then /py/bin/pip install -r /tmp/requirements.dev.txt ;\
+    if [ $DEV = true]; \
+        then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
     fi && \
     rm -rf /tmp && \
+    # remove the build packages needed for postgres.
+    apk del .tmp-build-deps && \
     adduser \
         --disabled-password \
         --no-create-home\
