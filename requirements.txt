@@ -1,5 +1,7 @@
 Django>=4.0.3,<4.1.0
 djangorestframework>=3.13.1,<3.14.0
 psycopg2>=2.8.6,<2.9 # postgres adaptor - compiles from source
+drf-spectacular>=0.20.1,<0.21
+
 
 flake8>=3.9.2,<4.0
