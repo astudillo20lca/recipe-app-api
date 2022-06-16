@@ -11,7 +11,7 @@ from django.test import SimpleTestCase
 
 # the decorator : the command to be mocking the database
 @patch('core.management.commands.wait_for_db.Command.check')
-class CommanTest(SimpleTestCase):
+class CommandTests(SimpleTestCase):
     """test commands"""
 
     def test_wait_for_db_ready(self, patched_check):
