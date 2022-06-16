@@ -15,7 +15,7 @@ def create_user(**params):
     return get_user_model().objects.create_user(**params)
 
 # we separate tests for public features of the API
-class PublicUserAPITest(TestCase):
+class PublicUserAPITests(TestCase):
     """test the public features of the user API"""
 
     def setUp(self):
@@ -30,7 +30,7 @@ class PublicUserAPITest(TestCase):
             'name':'Test Name'
         }
 
-        res = self.client.post(CREATE_USER_URL,payload)
+        res = self.client.post(CREATE_USER_URL, payload)
         # test successful code
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         # validate the user registed correctly
