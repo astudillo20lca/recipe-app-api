@@ -28,6 +28,22 @@ class UserSerializer(serializers.ModelSerializer):
 
             return get_user_model().objects.create_user(**validated_data)
 
+        def udpate(self, instance, validated_data):
+            """update and return user"""
+            # overwrite the update method
+
+            # validated_data has been gone trough the serializer validation
+            password = validated_data.pop('password', None) # retrieve and remove
+            
+            # existing update method does most of the work. 
+            user = super().update(instance, validated_data) 
+            
+            if password:
+                user.set_password(password)
+                user.save()
+
+            return user
+
 
 
 class AuthTokenSerializer(serializers.Serializer):
