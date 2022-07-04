@@ -150,6 +150,7 @@ class PrivateUserApiTests(TestCase):
     def test_retrieve_profile_success(self):
         """test retrieving profile for logged in user"""
 
+        # retrieve the details of the currently authenticated user.
         res = self.client.get(ME_URL)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
@@ -173,6 +174,7 @@ class PrivateUserApiTests(TestCase):
         res = self.client.patch(ME_URL, payload)
 
         self.user.refresh_from_db()
+        # validate that the name and password have been updated
         self.assertEqual(self.user.name,payload['name'])
         self.assertTrue(self.user.check_password(payload['password']))
         self.assertEqual(res.status_code, status.HTTP_200_OK)
