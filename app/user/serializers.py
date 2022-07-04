@@ -22,27 +22,27 @@ class UserSerializer(serializers.ModelSerializer):
         'min_length': 5}
         }
 
-        # overwrite the create method. Called after the validation
-        def create(self,validated_data):
-            """create and return a user with encrypted password"""
+    # overwrite the create method. Called after the validation
+    def create(self,validated_data):
+        """create and return a user with encrypted password"""
 
-            return get_user_model().objects.create_user(**validated_data)
+        return get_user_model().objects.create_user(**validated_data)
 
-        def udpate(self, instance, validated_data):
-            """update and return user"""
-            # overwrite the update method
+    def udpate(self, instance, validated_data):
+        """update and return user"""
+        # overwrite the update method
 
-            # validated_data has been gone trough the serializer validation
-            password = validated_data.pop('password', None) # retrieve and remove
-            
-            # existing update method does most of the work. 
-            user = super().update(instance, validated_data) 
-            
-            if password:
-                user.set_password(password)
-                user.save()
+        # validated_data has been gone trough the serializer validation
+        password = validated_data.pop('password', None) # retrieve and remove
+        
+        # existing update method does most of the work. 
+        user = super().update(instance, validated_data) 
+        
+        if password:
+            user.set_password(password)
+            user.save()
 
-            return user
+        return user
 
 
 
