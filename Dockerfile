@@ -35,7 +35,7 @@ RUN python -m venv /py && \
     apk del .tmp-build-deps && \
     adduser \
         --disabled-password \
-        --no-create-home\
+        --no-create-home \
         django-user
 
 # update the ENV variable, to not specify the full path
